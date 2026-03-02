@@ -1,0 +1,75 @@
+﻿<Page x:Class="Практическая_4_3исип_223_Крохмаль_Коровкина.Pages.Page3"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:winForms="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+      xmlns:chart="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+          Title="Page3">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Border Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="1" Padding="5" Margin="5">
+                <StackPanel>
+                    <Image Source="/Images/3 формула.png" MaxHeight="70" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="x₀ =" Margin="10,5" FontSize="14" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtX0" Grid.Row="1" Grid.Column="1" Margin="5" Padding="3" Width="120" HorizontalAlignment="Left"
+                     ToolTip="Начальное значение x (должно быть ≥ 0)"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="xк =" Margin="10,5" FontSize="14" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtXk" Grid.Row="2" Grid.Column="1" Margin="5" Padding="3" Width="120" HorizontalAlignment="Left"
+                     ToolTip="Конечное значение x"/>
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="dx =" Margin="10,5" FontSize="14" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtDx" Grid.Row="3" Grid.Column="1" Margin="5" Padding="3" Width="120" HorizontalAlignment="Left"
+                     ToolTip="Шаг (положительное число)"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="b =" Margin="10,5" FontSize="14" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtB" Grid.Row="4" Grid.Column="1" Margin="5" Padding="3" Width="120" HorizontalAlignment="Left"
+                     ToolTip="Параметр b"/>
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Результаты:" Margin="10,5" FontSize="14" VerticalAlignment="Top"/>
+            <TextBox x:Name="txtTable" Grid.Row="5" Grid.Column="1" Margin="5" Padding="3" 
+                     AcceptsReturn="True" VerticalScrollBarVisibility="Auto" IsReadOnly="True" 
+                     Height="120" FontFamily="Consolas" ToolTip="Значения x и y"/>
+
+            <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <Button Content="Вычислить" Click="btnCalc_Click" Margin="10" Padding="15,5" Width="100"
+                        ToolTip="Построить таблицу и график"/>
+                <Button Content="Очистить" Click="btnClear_Click" Margin="10" Padding="15,5" Width="100"
+                        ToolTip="Очистить все поля и график"/>
+            </StackPanel>
+
+            <TextBlock Grid.Row="7" Grid.ColumnSpan="2" Text="График функции:" Margin="10,5,5,0" FontSize="14"/>
+
+            <winForms:WindowsFormsHost Grid.Row="8" Grid.ColumnSpan="2" Margin="5" Height="250">
+                <chart:Chart x:Name="myChart">
+                    <chart:Chart.ChartAreas>
+                        <chart:ChartArea Name="ChartArea1"/>
+                    </chart:Chart.ChartAreas>
+                    <chart:Chart.Series>
+                        <chart:Series Name="Series1" ChartType="Line" BorderWidth="2"/>
+                    </chart:Chart.Series>
+                </chart:Chart>
+            </winForms:WindowsFormsHost>
+        </Grid>
+    </ScrollViewer>
+</Page>
