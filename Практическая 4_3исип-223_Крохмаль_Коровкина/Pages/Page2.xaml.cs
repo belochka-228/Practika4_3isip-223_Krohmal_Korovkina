@@ -24,6 +24,11 @@ namespace Практическая_4_3исип_223_Крохмаль_Коровк
 
         private void btnCalc_Click(object sender, RoutedEventArgs e)
         {
+            CalculateAndDisplay();
+        }
+
+        private void CalculateAndDisplay()
+        {
             if (string.IsNullOrWhiteSpace(txtX.Text) || string.IsNullOrWhiteSpace(txtQ.Text))
             {
                 MessageBox.Show("Заполните все поля!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -65,6 +70,7 @@ namespace Практическая_4_3исип_223_Крохмаль_Коровк
 
             txtResult.Text = k.ToString("F4");
         }
+
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {

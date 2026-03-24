@@ -23,6 +23,11 @@ namespace Практическая_4_3исип_223_Крохмаль_Коровк
         }
         private void btnCalc_Click(object sender, RoutedEventArgs e)
         {
+            CalculateAndDisplay();
+        }
+
+        private void CalculateAndDisplay()
+        {
             if (string.IsNullOrWhiteSpace(txtX.Text) ||
                 string.IsNullOrWhiteSpace(txtY.Text) ||
                 string.IsNullOrWhiteSpace(txtZ.Text))
