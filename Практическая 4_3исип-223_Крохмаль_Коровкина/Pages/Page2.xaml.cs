@@ -44,10 +44,39 @@ namespace Практическая_4_3исип_223_Крохмаль_Коровк
                 MessageBox.Show("q должно быть числом!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            double fx;
+
+            string functionType;
             if (rbSh.IsChecked == true)
-                fx = Math.Sinh(x);
+                functionType = "sh";
             else if (rbSquare.IsChecked == true)
+                functionType = "square";
+            else
+                functionType = "exp";
+
+            try
+            {
+                double result = CalculateFunction(x, q, functionType);
+                txtResult.Text = result.ToString("F4");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка вычислений: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        /// <summary>
+        /// вычисляет значение функции k в зависимости от |x*q|
+        /// </summary>
+        /// <param name="x">Параметр x</param>
+        /// <param name="q">Параметр q</param>
+        /// <param name="functionType">тип функции</param>
+        /// <returns>Результат вычисления</returns>
+        public static double CalculateFunction(double x, double q, string functionType)
+        {
+            double fx;
+            if (functionType == "sh")
+                fx = Math.Sinh(x);
+            else if (functionType == "square")
                 fx = x * x;
             else
                 fx = Math.Exp(x);
@@ -68,9 +97,8 @@ namespace Практическая_4_3исип_223_Крохмаль_Коровк
                 k = fx + q;
             }
 
-            txtResult.Text = k.ToString("F4");
+            return k;
         }
-
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {

@@ -23,6 +23,45 @@ namespace Практическая_4_3исип_223_Крохмаль_Коровк
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// вычисляет значение y = x * sin(sqrt(x + b - 0.0084))
+        /// </summary>
+        public static double CalculateY(double x, double b)
+        {
+            double underSqrt = x + b - 0.0084;
+            if (underSqrt < 0)
+                throw new InvalidOperationException($"Подкоренное выражение отрицательно при x = {x:F4}");
+            return x * Math.Sin(Math.Sqrt(underSqrt));
+        }
+
+        /// <summary>
+        /// генерирует список точек и границы для заданных параметров
+        /// </summary>
+        public static (List<(double x, double y)> points, double xMin, double xMax, double yMin, double yMax)
+            GeneratePoints(double x0, double xk, double dx, double b)
+        {
+            var points = new List<(double x, double y)>();
+            double xMin = x0, xMax = x0;
+            double yMin = double.MaxValue, yMax = double.MinValue;
+
+            for (double x = x0; (dx > 0) ? x <= xk : x >= xk; x += dx)
+            {
+                double y = CalculateY(x, b);
+                points.Add((x, y));
+
+                if (x < xMin) xMin = x;
+                if (x > xMax) xMax = x;
+                if (y < yMin) yMin = y;
+                if (y > yMax) yMax = y;
+            }
+
+            if (points.Count == 0)
+                throw new InvalidOperationException("Не добавлено ни одной точки");
+
+            return (points, xMin, xMax, yMin, yMax);
+        }
+
         private void btnCalc_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -49,52 +88,23 @@ namespace Практическая_4_3исип_223_Крохмаль_Коровк
                     MessageBox.Show("Шаг не может быть равен нулю!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-
                 if ((dx > 0 && x0 > xk) || (dx < 0 && x0 < xk))
                 {
                     MessageBox.Show("Направление шага не соответствует движению от x₀ к xк!",
                                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
+
+                var (points, xMin, xMax, yMin, yMax) = GeneratePoints(x0, xk, dx, b);
+
                 txtTable.Clear();
                 myChart.Series[0].Points.Clear();
 
-                int pointCount = 0;
-                double yMin = double.MaxValue;
-                double yMax = double.MinValue;
-                double xMin = x0;
-                double xMax = x0;
-
-                for (double x = x0; (dx > 0) ? x <= xk : x >= xk; x += dx)
+                foreach (var (x, y) in points)
                 {
-                    double underSqrt = x + b - 0.0084;
-                    if (underSqrt < 0)
-                    {
-                        MessageBox.Show($"При x = {x:F4} выражение под корнем отрицательно (x + b - 0.0084 = {underSqrt:F4}).\nРасчёт остановлен.",
-                                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-
-                    double y = x * Math.Sin(Math.Sqrt(underSqrt));
-
                     txtTable.AppendText($"x = {x:F4}\t y = {y:F4}\r\n");
                     myChart.Series[0].Points.AddXY(x, y);
-
-                    if (x < xMin) xMin = x;
-                    if (x > xMax) xMax = x;
-                    if (y < yMin) yMin = y;
-                    if (y > yMax) yMax = y;
-
-                    pointCount++;
                 }
-
-                if (pointCount == 0)
-                {
-                    MessageBox.Show("Не добавлено ни одной точки! Проверьте интервал и шаг.",
-                                    "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
                 myChart.Series[0].Color = System.Drawing.Color.Blue;
                 myChart.Series[0].BorderWidth = 2;
                 myChart.ChartAreas[0].AxisX.Title = "x";
@@ -126,7 +136,5 @@ namespace Практическая_4_3исип_223_Крохмаль_Коровк
             txtTable.Clear();
             myChart.Series[0].Points.Clear();
         }
-
-
     }
 }
